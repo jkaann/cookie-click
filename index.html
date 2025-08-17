@@ -274,7 +274,7 @@
 
         /* === LOJA === */
         .store-header {
-            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            background: linear-gradient(135deg, #00b894, #00cec9);
             color: white;
             padding: 25px;
             text-align: center;
@@ -336,14 +336,14 @@
         }
         
         .building.available {
-            border-color: #9b59b6;
+            border-color: #00cec9;
             animation: pulse-border 1s infinite;
         }
 
         @keyframes pulse-border {
-            0% { box-shadow: 0 0 0 0 rgba(155, 89, 182, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(155, 89, 182, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(155, 89, 182, 0); }
+            0% { box-shadow: 0 0 0 0 rgba(0, 206, 201, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(0, 206, 201, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 206, 201, 0); }
         }
 
         .building-icon {
@@ -726,7 +726,7 @@
                     lifetimeCookies: this.lifetimeCookies,
                     clickPower: this.clickPower,
                     buildings: this.buildings.map(b => ({ id: b.id, owned: b.owned, baseCost: b.baseCost })),
-                    upgrades: this.upgrades.filter(u => u.bought).map(u => ({ id: u.id }))
+                    upgrades: this.upgrades.filter(u => u.bought).map(u => u.id) // Salva APENAS os IDs dos upgrades
                 };
                 
                 try {
@@ -757,10 +757,10 @@
                         });
                     }
 
-                    if (data.upgrades) {
-                        data.upgrades.forEach(savedUpgrade => {
-                            const upgrade = this.upgrades.find(u => u.id === savedUpgrade.id);
-                            if (upgrade && !upgrade.bought) {
+                    if (data.upgrades && Array.isArray(data.upgrades)) {
+                        data.upgrades.forEach(upgradeId => {
+                            const upgrade = this.upgrades.find(u => u.id === upgradeId);
+                            if (upgrade) {
                                 upgrade.bought = true;
                                 upgrade.effect();
                             }
@@ -1166,4 +1166,3 @@
     </script>
 </body>
 </html>
-                
